@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geocentric Button - Bootstrap 4 (Fully Updated)</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    
+    <style>
+        body {
+            text-align: center !important;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+        }
+        .geocentric-button {
+            background-color: #6b3267;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-family: 'PT Sans', sans-serif;
+        }
+        .geocentric-button:hover {
+            background-color: #87bcd2;
+        }
+        .change-country {
+            display: inline-block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .change-country:hover {
+            color: #0056b3;
+        }
+        .loader {
+            display: block;
+            margin: 10px auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #6b3267;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        optgroup {
+            font-weight: bold;
+        }
+        .select-container {
+            max-height: 500px; /* Adjust this value if necessary */
+            overflow-y: auto;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Test the Geocentric Button</h1>
+    <button class="geocentric-button" id="geoButton">Donate Now</button>
+
+    <!-- Redirection Modal -->
+    <div class="modal fade" id="redirectModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <p id="redirectText">You are being redirected...</p>
+                    <div class="loader"></div>
+                    <a id="changeCountry" class="change-country">Change Country</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Country Selection Modal -->
+    <div class="modal fade" id="selectionModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <p>Select your country:</p>
+                    <div class="select-container">
+                        <select id="countrySelect" class="form-control" size="1">
+                            <optgroup label="North America">
+                                <option value="CA">Canada</option>
+                                <option value="US">United States</option>
+                            </optgroup>
+                            
+                            <optgroup label="Latin America">
+                                <option value="AR">Argentina</option>
+                                <option value="BO">Bolivia</option>
+                                <option value="BR">Brazil</option>
+                                <option value="CL">Chile</option>
+                                <option value="CO">Colombia</option>
+                                <option value="CR">Costa Rica</option>
+                                <option value="CU">Cuba</option>
+                                <option value="DO">Dominican Republic</option>
+                                <option value="EC">Ecuador</option>
+                                <option value="SV">El Salvador</option>
+                                <option value="GT">Guatemala</option>
+                                <option value="HN">Honduras</option>
+                                <option value="MX">Mexico</option>
+                                <option value="NI">Nicaragua</option>
+                                <option value="PA">Panama</option>
+                                <option value="PY">Paraguay</option>
+                                <option value="PE">Peru</option>
+                                <option value="PR">Puerto Rico</option>
+                                <option value="UY">Uruguay</option>
+                                <option value="VE">Venezuela</option>
+                            </optgroup>
+                        
+                            <optgroup label="Europe">
+                                <option value="AT">Austria</option>
+                                <option value="DK">Denmark</option>
+                                <option value="FI">Finland</option>
+                                <option value="FR">France</option>
+                                <option value="DE">Germany</option>
+                                <option value="HU">Hungary</option>
+                                <option value="IT">Italy</option>
+                                <option value="NL">Netherlands</option>
+                                <option value="NO">Norway</option>
+                                <option value="PL">Poland</option>
+                                <option value="RO">Romania</option>
+                                <option value="ES">Spain</option>
+                                <option value="SE">Sweden</option>
+                                <option value="CH">Switzerland</option>
+                                <option value="UK">United Kingdom</option>
+                            </optgroup>
+                        
+                            <optgroup label="Asia-Pacific">
+                                <option value="AU">Australia</option>
+                                <option value="HK">Hong Kong</option>
+                                <option value="NZ">New Zealand</option>
+                                <option value="PH">Philippines</option>
+                                <option value="KR">South Korea</option>
+                            </optgroup>
+                        
+                            <optgroup label="Middle East & Africa">
+                                <option value="ZA">South Africa</option>
+                            </optgroup>
+                        </select>
+                    </div>    
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            // Load Bootstrap dependencies dynamically
+            function loadScript(src, callback) {
+                let script = document.createElement("script");
+                script.src = src;
+                script.onload = callback || function () {};
+                document.head.appendChild(script);
+            }
+    
+            function loadStylesheet(href) {
+                let link = document.createElement("link");
+                link.rel = "stylesheet";
+                link.href = href;
+                document.head.appendChild(link);
+            }
+
+                    // Load PT Sans font dynamically
+            loadStylesheet("https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap");
+
+            // Load Bootstrap 4 CSS & JS
+            loadStylesheet("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
+            loadScript("https://code.jquery.com/jquery-3.2.1.slim.min.js", function () {
+                loadScript("https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", function () {
+                    loadScript("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js");
+                });
+            });
+    
+            // Complete Country JSON Object
+            const countrySites = {
+                // 🌎 North America
+                "US": "https://www.opendoorsus.org/en-US/donatenow/", // United States
+                "CA": "https://www.opendoorscanada.org/donate/", // Canada
+                
+                // 🌎 Latin America
+                "AR": "https://www.puertasabiertasal.org/", // Argentina
+                "BO": "https://www.puertasabiertasal.org/", // Bolivia
+                "BR": "https://www.portasabertas.org.br/doe/", // Brazil
+                "CL": "https://www.puertasabiertasal.org/", // Chile
+                "CO": "https://www.puertasabiertasal.org/", // Colombia
+                "CR": "https://www.puertasabiertasal.org/", // Costa Rica
+                "CU": "https://www.puertasabiertasal.org/", // Cuba
+                "DO": "https://www.puertasabiertasal.org/", // Dominican Republic
+                "EC": "https://www.puertasabiertasal.org/", // Ecuador
+                "SV": "https://www.puertasabiertasal.org/", // El Salvador
+                "GT": "https://www.puertasabiertasal.org/", // Guatemala
+                "HN": "https://www.puertasabiertasal.org/", // Honduras
+                "MX": "https://www.puertasabiertas.org.mx/donar/", // Mexico
+                "NI": "https://www.puertasabiertasal.org/", // Nicaragua
+                "PA": "https://www.puertasabiertasal.org/", // Panama
+                "PY": "https://www.puertasabiertasal.org/", // Paraguay
+                "PE": "https://www.puertasabiertasal.org/", // Peru
+                "PR": "https://www.puertasabiertasal.org/", // Puerto Rico
+                "UY": "https://www.puertasabiertasal.org/", // Uruguay
+                "VE": "https://www.puertasabiertasal.org/", // Venezuela
+                
+                // 🇪🇺 Europe
+                "AT": "https://opendoors.payrexx.com/de/pay?cid=9c4e1733", // Austria
+                "DK": "https://www.opendoors.dk/stoet-her", // Denmark 
+                "FI": "https://opendoors.fi/osasto/hyvantekijan-lahjat/", // Finland
+                "FR": "https://don.portesouvertes.fr/", // France
+                "DE": "https://www.opendoors.de/aktiv-werden/spenden/jetzt-spenden#onlinespende", // Germany
+                "HU": "https://www.opendoorsmagyarorszag.org/hu-HU/rolunk/irj-nekunk/", // Hungary
+                "IT": "https://www.porteaperteitalia.org/progetti/", // Italy
+                "NL": "https://www.opendoors.nl/doneren/", // Netherlands
+                "NO": "https://www.opendoors.no/gi/#GiEnGave", // Norway 
+                "PL": "https://www.opendoors.pl/nasza-pomocprojekty-miesieczne/wesprzyj-teraz#online", // Poland
+                "RO": "https://www.porti-deschise.org/despre-noi/contact", // Romania
+                "ES": "https://www.puertasabiertas.org/es-ES/involucrate/donar/#anchor_donar", // Spain
+                "SE": "https://www.open-doors.se/ge/", // Sweden 
+                "CH": "https://open-doors.payrexx.com/fr/pay", // Switzerland
+                "UK": "https://www.opendoorsuk.org/donate-now/", // United Kingdom
+                
+                // 🌏 Asia-Pacific
+                "AU": "https://www.opendoors.org.au/donation/", // Australia 
+                "HK": "https://donation.opendoors.org.hk/?lang=en", // Hong Kong
+                "NZ": "https://secure.opendoors.org.nz/checkout", // New Zealand
+                "PH": "https://www.opendoors.ph/donate", // Philippines
+                "KR": "https://mrmweb.hsit.co.kr/v2/Member/MemberJoin.aspx?action=join&server=PKJRp0B6I/NgGhCFQqztGQ==", // South Korea
+                
+                // 🌍 Middle East & Africa
+                "ZA": "https://www.opendoors.org.za/get-involved/give-a-gift/"
+            };
+    
+            // Button click event
+            document.addEventListener("DOMContentLoaded", function () {
+                document.getElementById("geoButton").addEventListener("click", function () {
+                    getGeolocation(showRedirectionModal);
+                });
+    
+                document.getElementById("changeCountry").addEventListener("click", function (event) {
+                    event.preventDefault();
+                    clearTimeout(autoRedirect);
+                    $('#redirectModal').modal('hide');
+                    setTimeout(() => $('#selectionModal').modal('show'), 300);
+                });
+    
+                document.getElementById("countrySelect").addEventListener("change", function () {
+                    let selectedCountry = this.value;
+                    $('#selectionModal').modal('hide');
+                    setTimeout(() => redirectToCountry(selectedCountry), 300);
+                });
+            });
+    
+            function getGeolocation(callback) {
+                fetch('https://ipapi.co/json/')
+                    .then(response => response.json())
+                    .then(data => {
+                        callback(data.country_code);
+                    })
+                    .catch(() => callback("US"));
+            }
+    
+            let autoRedirect;
+            function showRedirectionModal(countryCode) {
+                document.getElementById("redirectText").innerHTML = `You are being redirected to <strong>${countryCode}'s</strong> donation page.`;
+                $('#redirectModal').modal('show');
+                autoRedirect = setTimeout(() => {
+                    redirectToCountry(countryCode);
+                }, 1000);
+            }
+    
+            function redirectToCountry(countryCode) {
+                let redirectUrl = countrySites[countryCode] || "https://www.opendoors.org/";
+                redirectUrl += "?utm_source=geocentric-button&utm_medium=referral&utm_campaign=donation-redirect";
+                window.location.href = redirectUrl;
+            }
+        })();
+    </script>
+    
+</body>
+</html>
